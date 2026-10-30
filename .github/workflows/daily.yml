@@ -1,0 +1,37 @@
+
+name: Daily Python Automation
+
+on:
+  schedule:
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  daily-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get project code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run project tests and create report
+        run: |
+          set -o pipefail
+          python -m unittest discover -s tests -v 2>&1 | tee daily-report.txt
+
+      - name: Save daily report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-test-report
+          path: daily-report.txt
+          if-no-files-found: ignore
+          retention-days: 30

@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "daily-dev-workflow"
+version = "1.0.0"
+description = "A lightweight work log for tracking genuine software development tasks"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Project Maintainer"}]
+dependencies = []
+
+[project.scripts]
+devlog = "devlog.cli:main"
+
+[tool.setuptools]
+packages = ["devlog"]
